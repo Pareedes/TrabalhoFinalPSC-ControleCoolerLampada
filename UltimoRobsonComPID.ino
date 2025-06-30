@@ -36,6 +36,8 @@ void countPulse() {
 }
 
 void setup() {
+  // **1) Inicializa a Serial para o Modbus RTU**  
+  Serial.begin(9600);  
   // --- Modbus ---
   modbus_configure(9600, 1, 0, TOTAL_REGS_SIZE, 0);
   holdingRegs[0] = 0; // Setpoint de RPM inicial
@@ -94,7 +96,7 @@ void loop() {
     interrupts(); // Liga as interrupções novamente
 
     // Atualiza o registrador Modbus com o RPM atual para o SCADA ler
-    holdingRegs[1] = current_rpm;
+    holdingRegs[1] = (unsigned int) current_rpm;  
 
     // Roda o algoritmo PID. Ele calculará o 'pwm_output' necessário.
     myPID.Compute(); 
